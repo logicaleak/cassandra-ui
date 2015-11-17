@@ -1,0 +1,6 @@
+[submodule "src/js/components/maps/react-google-maps"]
+	path = src/js/components/maps/react-google-maps
+	url = git@github.com:logicaleak/react-google-maps.git
+[submodule "src/js/components/react-google-maps"]
+	path = src/js/components/react-google-maps
+	url = git@github.com:logicaleak/react-google-maps.git
