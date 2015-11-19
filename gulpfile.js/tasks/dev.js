@@ -17,7 +17,7 @@ var paths = {
   html: ['./src/index.html']
 };
 
-gulp.task('js-watch', function() {
+gulp.task('js-watch', ['jslib'], function() {
   gulp.watch(paths.js, ['browserify', 'move-html'], function() {
   	browserSync.reload();
   });
@@ -37,7 +37,7 @@ gulp.task('html-watch', function() {
 });
 
 
-gulp.task('sass-dev', function() {
+gulp.task('sass-dev', ['csslib'], function() {
 	return gulp.src('./src/css/sass/app.scss')
 		.pipe(gulpSass({
         

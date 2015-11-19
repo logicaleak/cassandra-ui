@@ -1,6 +1,6 @@
 var $ = require('jquery');
 
-module.post_request = function(url, data, success_callback, error_callback) {
+module.exports.post_request = function(url, data, success_callback, error_callback) {
 	$.ajax({
 		url : url,
 		data : JSON.stringify(data),
@@ -13,7 +13,7 @@ module.post_request = function(url, data, success_callback, error_callback) {
 	});
 }
 
-module.get_request = function(url, success_callback, error_callback) {
+module.exports.get_request = function(url, success_callback, error_callback) {
 	$.ajax({
 		url : url,
 		method : 'GET',

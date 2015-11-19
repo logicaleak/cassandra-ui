@@ -5,91 +5,58 @@ var _ = require('underscore');
 var actions = require('../constants/main');
 var urls = require('../constants/urls');
 
-var post_request = require('../utils/ajax').post_request;
-var get_request = require('../utils/ajax').get_request;
+var ajax = require('../utils/ajax');
+console.log(ajax);
+var post_request = ajax.post_request;
+var get_request = ajax.get_request;
 
 var _data;
-var _currentUser = "1";
-var _currentLocation = "1";
+var _currentUser = null;
+var _currentIteration = 1;
 
-var mock = {
-	users : [
-		"aaaaaaaaaaaaaaaaaaaaaaaa",
-		"bbbbbbbbbbbbbbbbbbbbbbbb"
-	],
-	aaaaaaaaaaaaaaaaaaaaaaaa: {
-		1: {
-			prediction: true,
-			time: "14:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 300,
-			toClusterPolygon: [],
-			toClusterNo: 301
-		},
-		2: {
-			prediction: true,
-			time: "15:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 301,
-			toClusterPolygon: [],
-			toClusterNo: 302
-		},
-		3: {
-			prediction: true,
-			time: "16:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 302,
-			toClusterPolygon: [],
-			toClusterNo: 300
-		}
-	},
-	bbbbbbbbbbbbbbbbbbbbbbbb: {
-		1: {
-			prediction: true,
-			time: "14:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 300,
-			toClusterPolygon: [],
-			toClusterNo: 301
-		},
-		2: {
-			prediction: true,
-			time: "15:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 301,
-			toClusterPolygon: [],
-			toClusterNo: 302
-		},
-		3: {
-			prediction: true,
-			time: "16:00:00",
-			fromClusterPolygon: [],
-			fromClusterNo: 302,
-			toClusterPolygon: [],
-			toClusterNo: 300
-		}
-	}
-}
+
 
 var DataStore = _.extend({}, EventEmitter.prototype, {
 
-	getDataForCurrentLocationAndUser: function() {
-		return _data[_currentUser][_currentLocation];
+
+	getClustersForUser: function() {
+		return _data.clusters[_currentUser];
+	},
+
+	getIterationsForUser: function() {
+		return _data.iterations[_currentUser];
+	},
+
+	getDataForIteration: function(iteration) {
+		return _data.iterations[_currentUser][iteration];
 	},
 
 	getUsers: function() {
 		return _data.users;
-	}
+	},
+
+	getCurrentUser: function() {
+		return _currentUser;
+	},
+
+	getCurrentIteration: function() {
+		return _currentIteration;
+	},
 
 	//Run in the view on load
 	getDataFromServer: function(callback, failurecallback) {
-		// get_request(urls.GET_DATA, function(data) {
-		// 	_data = data;
-		// 	callback(data);
-		// }, function() {
-		// 	failurecallback();
-		// });
-		_data = mock;
+		var that = this;
+		get_request(urls.GET_DATA, function(data) {
+			_data = data;
+
+			// IF we dont set current user firstly, userSelect view will not be affected
+			// But the map cannot see the first user
+			_currentUser = data.users[0];
+			that.emitChange(); //Emit change for views to know that new data has arrived
+			callback(data);
+		}, function() {
+			failurecallback();
+		});
 	},
 
 	// Emit Change event
@@ -106,23 +73,32 @@ var DataStore = _.extend({}, EventEmitter.prototype, {
 	removeChangeListener: function(callback) {
 		this.removeListener('change', callback);
 	}
-}
+});
 
 	
-AppDispatcher.register(function(payload) {
-	var action = payload.action;
+AppDispatcher.register(function(action) {
+	
+	console.log("Received payload from appdispatcher");
+	console.log(action);
 
 	switch (action.actionType) {
-		case actions.LOCATION_ARRIVAL_TRIGGER:
-			_currentLocation = action.locationIndex;
+		case actions.ITERATION_CHANGE:
+			console.log("iteration change");
+			_currentIteration = action.iteration;
+			console.log('currentIteration is ');
+			console.log(_currentIteration);
 			DataStore.emitChange();
 			break;
-		case actions.DIFFERENT_USER:
+		case actions.USER_CHANGE:
+			console.log("it is a user change");
 			_currentUser = action.userId;
-			_currentLocation = "1";
+			console.log("Now _currentUser is " + _currentUser);
+			_currentIteration = 1;
 			DataStore.emitChange();
 			break;
 		default:
 			break;
 	}
 });
+
+module.exports = DataStore;

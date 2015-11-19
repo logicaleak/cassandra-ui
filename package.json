@@ -13,8 +13,8 @@
     "morgan": "*",
     "gulp-util": "*",
     "compression": "*",
-    "react-bootstrap": "*"
-    
+    "react-bootstrap": "*",
+    "jquery": "*"
   },
   "devDependencies": {
     "browser-sync":"*",

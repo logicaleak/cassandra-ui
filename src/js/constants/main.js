@@ -1,6 +1,7 @@
-var keyMirror = require('react/lib/keyMirror');
+// var keyMirror = require('react/lib/keyMirror');
 
 // Define action constants
-module.exports = keyMirror({
-  LOCATION_ARRIVAL_TRIGGER : null, 
-});
+module.exports = {
+  ITERATION_CHANGE : "ITERATION_CHANGE", 
+  USER_CHANGE : "USER_CHANGE"
+};
