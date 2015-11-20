@@ -2,6 +2,8 @@ var GoogleMaps = require('../../react-google-maps');
 var React = require('react');
 var DataStore = require('../../../stores/DataStore.js');
 var generalUtils = require('../../../utils/general.js');
+var ReactBootstrap = require('react-bootstrap');
+var ButtonInput = ReactBootstrap.ButtonInput;
  
 
 var TheMap = React.createClass({
@@ -29,8 +31,10 @@ var TheMap = React.createClass({
 	componentWillMount : function() {
 		var that = this;
 		this.first = true;
+		var center = {lat: 42.0, lng:30.0};
+		this.setState({center: center});
 		DataStore.addChangeListener(function() {
-			console.log('change in the map happened');
+			
 
 			var currentUserId = DataStore.getCurrentUser();
 			var currentIteration = DataStore.getCurrentIteration();
@@ -50,10 +54,6 @@ var TheMap = React.createClass({
 
 			// Get clusters
 			var clusters = DataStore.getClustersForUser();
-			if (this.first) {
-				this.first = false;
-				
-			}
 			var polygons = [];
 			for (var clusterId in clusters) {
 				var points = clusters[clusterId].points;
@@ -73,8 +73,8 @@ var TheMap = React.createClass({
 			if (iterationChanged) {
 				var currentIteration = DataStore.getCurrentIteration();
 				var markers = that.getMarkersForIterations(currentIteration);
-				console.log('markers');
-				console.log(markers);
+				
+				
 				that.setState({markers: markers});
 
 				var iteration = DataStore.getIterationsForUser()[currentIteration];	
@@ -105,9 +105,12 @@ var TheMap = React.createClass({
 
 
 	render : function() {
-
+		var center = {lat:41.087839, lng: 29.046480};
 		return (
-			<GoogleMaps markers={this.state.markers} polygons={this.state.polygons} arrows={this.state.arrows} center={this.state.center} zoom={12} mapTypeControl={true} elId="mapId" googleMapsClassName="map"/>
+			<div>
+			<ButtonInput onClick={this.applyIteration} value="Switch Location View Mode" />
+			<GoogleMaps markers={this.state.markers} polygons={this.state.polygons} arrows={this.state.arrows} center={center} zoom={12} mapTypeControl={true} elId="mapId" googleMapsClassName="map"/>
+			</div>
 		)
 	}	
 });

@@ -6,7 +6,7 @@ var actions = require('../constants/main');
 var urls = require('../constants/urls');
 
 var ajax = require('../utils/ajax');
-console.log(ajax);
+
 var post_request = ajax.post_request;
 var get_request = ajax.get_request;
 
@@ -78,21 +78,21 @@ var DataStore = _.extend({}, EventEmitter.prototype, {
 	
 AppDispatcher.register(function(action) {
 	
-	console.log("Received payload from appdispatcher");
-	console.log(action);
+	
+	
 
 	switch (action.actionType) {
 		case actions.ITERATION_CHANGE:
-			console.log("iteration change");
+			
 			_currentIteration = action.iteration;
-			console.log('currentIteration is ');
-			console.log(_currentIteration);
+			
+			
 			DataStore.emitChange();
 			break;
 		case actions.USER_CHANGE:
-			console.log("it is a user change");
+			
 			_currentUser = action.userId;
-			console.log("Now _currentUser is " + _currentUser);
+			
 			_currentIteration = 1;
 			DataStore.emitChange();
 			break;
