@@ -19,13 +19,15 @@ var settings = {
 };
 
 var executeServer = function() {
+  gutil.log('root is ' + settings.root);
+
 	express()
 	    // .use(compress())
 	    .use(logger())
 	    .use('/', express.static(settings.root, settings.staticOptions))
 	    .listen(settings.port);	
 
-    gutil.log('production server started on ' + gutil.colors.green('selam'));
+  gutil.log('production server started on ' + gutil.colors.green('selam'));
 };
 
 gulp.task('prod-server', executeServer);
