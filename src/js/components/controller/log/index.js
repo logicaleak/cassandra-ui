@@ -37,14 +37,6 @@ var Log = React.createClass({
 			var toClusterId = iteration.toClusterId;
 
 			
-			var predictionText;
-			var predictionType;
-			if (prediction === true) {
-				predictionText = "Prediction Successful";
-			} else {
-				predictionText = "Prediction NOT Successful";
-			}
-
 			that.setState({
 				currentLocation: currentLocation,
 				locationTime: locationTime,
@@ -53,7 +45,6 @@ var Log = React.createClass({
 				predictionType: predictionType,
 				fromClusterId: fromClusterId,
 				toClusterId: toClusterId,
-				predictionText: predictionText,
 				allIterations: allIterations
 			});
 
@@ -64,6 +55,13 @@ var Log = React.createClass({
 		var rows;
 		if (this.state.allIterations !== undefined) {
 			rows = this.state.allIterations.map(function(iteration) {
+				console.log(iteration);
+				var isSuccessText;
+				if (iteration.success) {
+					isSuccessText = "True";
+				} else {
+					isSuccessText = "False";
+				}
 				return (
 					<tr>
 						<td>

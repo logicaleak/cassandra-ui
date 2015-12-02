@@ -37,7 +37,6 @@ var TheMap = React.createClass({
 		var center = {lat: 42.0, lng:30.0};
 		this.setState({center: center});
 		DataStore.addChangeListener(function() {
-			console.log('CHANGE HAPPENED');
 
 			var currentUserId = DataStore.getCurrentUser();
 			var currentIteration = DataStore.getCurrentIteration();
@@ -86,7 +85,6 @@ var TheMap = React.createClass({
 				
 				var iteration = DataStore.getIterationsForUser()[currentIteration];	
 				var arrows = [];
-				console.log(iteration);
 				if (iteration.success) {
 					//We will process these later
 					var currentLocation = iteration.location;
