@@ -1,5 +1,6 @@
 var ReactBootstrap = require('react-bootstrap');
 var Input = ReactBootstrap.Input;
+var Table = ReactBootstrap.Table;	
 
 var React = require('react');
 var DataStore = require('../../../stores/DataStore.js');
@@ -60,47 +61,93 @@ var Log = React.createClass({
 		});
 	},
 	render : function() {
+		var rows;
+		if (this.state.allIterations !== undefined) {
+			rows = this.state.allIterations.map(function(iteration) {
+				return (
+					<tr>
+						<td>
+							{iteration.location.lat}
+						</td>
+						<td>
+							{iteration.location.lng}
+						</td>
+						<td>
+							{iteration.locationTime}
+						</td>
+						<td>
+							{iteration.locationClusterId}
+						</td>
+						<td>
+							{iteration.clusterStateFirst}
+						</td>
+						<td>
+							{iteration.clusterStateSecond}
+						</td>
+						<td>
+							{iteration.timeClusterId}
+						</td>
+						<td>	
+							{iteration.predictionType}
+						</td>
+						<td>
+							{iteration.fromClusterId}
+						</td>
+						<td>
+							{iteration.toClusterId}
+						</td>
+						<td>
+							{iteration.nextTravelFirstCid}
+						</td>
+						<td>
+							{iteration.nextTravelSecondCid}
+						</td>
+						<td>
+							{iteration.nextTravelThirdCid}
+						</td>
+						<td>
+							{iteration.nextTravelTime}
+						</td>
+						<td>
+							{iteration.success}
+						</td>
+					</tr>
+				);
+			});
+		} else {
+			rows = null;
+		}
 
 
-		this.state.allIterations.map(function(iteration) {
-			return (
-
-			);
-		});
+		
 		
 		return (
-			<div>
+			<div className="log-div">
 				<Table striped bordered condensed hover>
 					<thead>
 				      <tr>
-				        <th>#</th>
-				        <th>First Name</th>
-				        <th>Last Name</th>
-				        <th>Username</th>
+				        <th>lat</th>
+				        <th>lng</th>
+				        <th>time</th>
+				        <th>cluster id</th>
+				        <th>State First</th>
+				        <th>State Second</th>
+				        <th>TC id</th>
+				        <th>P Type</th>
+				        <th>PR First Cid</th>
+				        <th>PR Second Cid</th>
+				        <th>Next T First Cid</th>
+				        <th>Next T Second Cid</th>
+				        <th>Next T Third Cid</th>
+				        <th>Next T time</th>
+				        <th>Success</th>
+
 				      </tr>
 				    </thead>
 				    <tbody>
-				<div>
-					{this.state.predictionText}
-				</div>
-				<div>
-					{this.state.predictionType}
-				</div>
-				<div>
-					Location : {this.state.currentLocation.lng}  {this.state.currentLocation.lat}
-				</div>
-				<div>
-					Location time : {this.state.locationTime}
-				</div>
-				<div>
-					Location Cluster Id : {this.state.locationClusterId}
-				</div>
-				<div>
-					From CLuster : {this.state.fromClusterId}
-				</div>
-				<div>
-					To Cluster : {this.state.toClusterId}
-				</div>
+				    	{rows}
+				    </tbody>
+				</Table>
 			</div>
 		)
 	}

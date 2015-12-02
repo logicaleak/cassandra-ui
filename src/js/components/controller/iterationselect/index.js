@@ -55,15 +55,15 @@ var IterationSelect = React.createClass({
 						
 					</Col>
 
-					<Col md={1}>
+					<Col md={3}>
 						<ButtonInput onClick={this.applyIteration} value="Go" />
 					</Col>
 
-					<Col md={1}>
+					<Col md={3}>
 						<ButtonInput onClick={this.iterationDecrease} value="-" />
 					</Col>
 
-					<Col md={1}>
+					<Col md={3}>
 						<ButtonInput onClick={this.iterationIncrease} value="+" />
 					</Col>
 				</div>

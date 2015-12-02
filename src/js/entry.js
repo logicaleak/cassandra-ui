@@ -5,6 +5,7 @@ var ReactBootstrap = require('react-bootstrap');
 var Col = ReactBootstrap.Col;
 var Grid = ReactBootstrap.Grid;
 var Row = ReactBootstrap.Grid;
+var ButtonInput = ReactBootstrap.ButtonInput;
 
 var Router = reactRouter.Router;
 var Route = reactRouter.Route;
@@ -17,33 +18,67 @@ var Log = require('./components/controller/log');
 
 var DataStore = require('./stores/DataStore.js');
 
+var $ = require('jquery');
+
 var App = React.createClass({
+
+	getInitialState: function() {
+		return {
+			mapCol: 8,
+			logCol: 4,
+			mapBigger: true
+		}
+	},
+
 	componentWillMount: function() {
 		DataStore.getDataFromServer(function() {}, function() {});
+	},
+
+	switchSizeMode: function() {
+		if (this.state.mapBigger) {
+			this.setState({
+				mapCol: 4,
+				logCol: 8,
+				mapBigger: false
+			});	
+		} else {
+			this.setState({
+				mapCol: 8,
+				logCol: 4,
+				mapBigger: true
+			});
+		}
+		
 	},
 
 	render: function() {
 		var center = {lat : 42, lng: 29};
 
 		return (
-			<div className="container-fluid">
+			<Grid>
 				
 					
 				<USelect />
-			
-		
-				<ISelect />
-					
+				<Row>
+					<Col xs={3}>
+						<ISelect />
+					</Col>
+					<Col xs={3}>
+						<ButtonInput onClick={this.switchSizeMode} value="Switch Size Mode" />
+					</Col>
+					<Col xs={6}></Col>
+				</Row>
+
+				<Row>
+					<Col xs={this.state.mapCol}>
+						<TheMap />
+					</Col>
+					<Col xs={this.state.logCol}>
+						<Log />
+					</Col>
+				</Row>
 				
-				<Col xs={8}>
-					<TheMap />
-				</Col>
-				<Col xs={4}>
-					<Log />
-				</Col>
-				
-				
-			</div>	
+			</Grid>	
 
 			
 		)

@@ -115,6 +115,10 @@ var TheMap = React.createClass({
 		
 	},
 
+	switchLocationViewMode: function() {
+
+	},
+
 
 	render : function() {
 		var center = {lat:41.087839, lng: 29.046480};
