@@ -1,4 +1,6 @@
-var BASE_URL = "http://127.0.0.1:8000"
+
+
+var BASE_URL = global.BASE_URL;
 
 module.exports = {
 	GET_DATA : BASE_URL + '/data'

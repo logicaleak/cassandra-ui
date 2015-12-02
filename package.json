@@ -16,7 +16,7 @@
     "react-bootstrap": "*",
     "jquery": "*",
     "rich-marker": "*",
-    "google-maps": "*"
+    "google-maps": "*"  
   },
   "devDependencies": {
     "browser-sync":"*",
@@ -27,7 +27,8 @@
     "reactify": "^0.15",
     "watchify": "~2.1.0",
     "gulp" : "*",
-    "gulp-sass": "*"
+    "gulp-sass": "*",
+    "yargs": "*"
   },
   "scripts": {
     "gulp": "gulp"
