@@ -55,7 +55,7 @@ var Log = React.createClass({
 		var rows;
 		if (this.state.allIterations !== undefined) {
 			rows = this.state.allIterations.map(function(iteration) {
-				console.log(iteration);
+				
 				var isSuccessText;
 				if (iteration.success) {
 					isSuccessText = "True";
@@ -107,7 +107,7 @@ var Log = React.createClass({
 							{iteration.nextTravelTime}
 						</td>
 						<td>
-							{iteration.success}
+							{isSuccessText}
 						</td>
 					</tr>
 				);
