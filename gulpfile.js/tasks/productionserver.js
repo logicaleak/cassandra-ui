@@ -9,7 +9,7 @@ var port = process.argv.port;
 
 //Inspired from gulp-starter project in github
 var settings = {
-  root: path.resolve(process.cwd(), './build'),
+  root: 'build',
   port: port || 3000,
   logLevel: 'dev',
   staticOptions: {
