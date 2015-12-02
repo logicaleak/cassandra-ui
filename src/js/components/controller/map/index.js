@@ -86,7 +86,8 @@ var TheMap = React.createClass({
 				
 				var iteration = DataStore.getIterationsForUser()[currentIteration];	
 				var arrows = [];
-				if (iteration.prediction) {
+				console.log(iteration);
+				if (iteration.success) {
 					//We will process these later
 					var currentLocation = iteration.location;
 					var locationClusterId = iteration.locationClusterId;
