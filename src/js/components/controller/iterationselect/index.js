@@ -49,7 +49,7 @@ var IterationSelect = React.createClass({
 	render : function() {
 		return (
 			
-				<Row className="show-grid">
+				<div className="show-grid">
 					<Col md={3}>
 						<Input ref="iterationvalueinput" type="text" placeholder="Iteration number" value="1" id="iterationvalue"/>
 						
@@ -66,7 +66,7 @@ var IterationSelect = React.createClass({
 					<Col md={1}>
 						<ButtonInput onClick={this.iterationIncrease} value="+" />
 					</Col>
-				</Row>
+				</div>
 			
 		)
 	}

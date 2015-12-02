@@ -22,8 +22,8 @@ var Log = React.createClass({
 	componentWillMount: function() {
 		var that = this;
 		DataStore.addChangeListener(function() {
-			console.log('change in log');
-
+			
+			var allIterations = DataStore.getIterationsForUser();
 			var iteration = DataStore.getIterationsForUser()[DataStore.getCurrentIteration()];
 			var currentLocation = iteration.location;
 			var locationTime = iteration.locationTime;
@@ -52,7 +52,8 @@ var Log = React.createClass({
 				predictionType: predictionType,
 				fromClusterId: fromClusterId,
 				toClusterId: toClusterId,
-				predictionText: predictionText
+				predictionText: predictionText,
+				allIterations: allIterations
 			});
 
 
@@ -60,10 +61,25 @@ var Log = React.createClass({
 	},
 	render : function() {
 
-		console.log('state');
-		console.log(this.state);
+
+		this.state.allIterations.map(function(iteration) {
+			return (
+
+			);
+		});
+		
 		return (
 			<div>
+				<Table striped bordered condensed hover>
+					<thead>
+				      <tr>
+				        <th>#</th>
+				        <th>First Name</th>
+				        <th>Last Name</th>
+				        <th>Username</th>
+				      </tr>
+				    </thead>
+				    <tbody>
 				<div>
 					{this.state.predictionText}
 				</div>

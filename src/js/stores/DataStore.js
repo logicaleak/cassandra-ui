@@ -48,6 +48,8 @@ var DataStore = _.extend({}, EventEmitter.prototype, {
 		var that = this;
 		get_request(urls.GET_DATA, function(data) {
 			_data = data;
+			console.log('GOT DATA');
+			console.log(data);
 
 			// IF we dont set current user firstly, userSelect view will not be affected
 			// But the map cannot see the first user
@@ -55,6 +57,7 @@ var DataStore = _.extend({}, EventEmitter.prototype, {
 			that.emitChange(); //Emit change for views to know that new data has arrived
 			callback(data);
 		}, function() {
+			console.log('failure in data retrieval');
 			failurecallback();
 		});
 	},

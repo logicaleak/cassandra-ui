@@ -14,7 +14,9 @@
     "gulp-util": "*",
     "compression": "*",
     "react-bootstrap": "*",
-    "jquery": "*"
+    "jquery": "*",
+    "rich-marker": "*",
+    "google-maps": "*"
   },
   "devDependencies": {
     "browser-sync":"*",

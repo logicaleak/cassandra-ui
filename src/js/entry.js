@@ -26,22 +26,24 @@ var App = React.createClass({
 		var center = {lat : 42, lng: 29};
 
 		return (
-			<Grid style={{width: '100%'}}>
-				<Row>
-					<USelect />
-				</Row>
-				<Row>
-					<ISelect />
-				</Row>
-				<Row>
-					<Col xs={10}>
-						<TheMap />
-					</Col>
-					<Col xs={2}>
-						<Log />
-					</Col>
-				</Row>
-			</Grid>
+			<div className="container-fluid">
+				
+					
+				<USelect />
+			
+		
+				<ISelect />
+					
+				
+				<Col xs={8}>
+					<TheMap />
+				</Col>
+				<Col xs={4}>
+					<Log />
+				</Col>
+				
+				
+			</div>	
 
 			
 		)

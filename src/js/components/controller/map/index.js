@@ -22,6 +22,9 @@ var TheMap = React.createClass({
 			var marker = {}
 			var loc = DataStore.getIterationsForUser()[i].location;
 			marker.coordinates = loc;
+
+   			var content = '<div class="location-marker">' + i.toString() + '</div>';
+			marker.content = content;
 			marker.label = "iteration " + i.toString();
 			markers.push(marker);
 		}
@@ -34,7 +37,7 @@ var TheMap = React.createClass({
 		var center = {lat: 42.0, lng:30.0};
 		this.setState({center: center});
 		DataStore.addChangeListener(function() {
-			
+			console.log('CHANGE HAPPENED');
 
 			var currentUserId = DataStore.getCurrentUser();
 			var currentIteration = DataStore.getCurrentIteration();
@@ -55,8 +58,14 @@ var TheMap = React.createClass({
 			// Get clusters
 			var clusters = DataStore.getClustersForUser();
 			var polygons = [];
+			var markers = [];
 			for (var clusterId in clusters) {
 				var points = clusters[clusterId].points;
+				var center = generalUtils.calcCenterOfPolygon(points);
+				var marker = {};
+				marker.coordinates = center;
+				marker.content = '<div class="cluster-number">' + clusterId.toString() + '</div>'
+				markers.push(marker);
 				polygons.push({
 					coordinates : points,
 					strokeColor: '#FF0000',
@@ -72,29 +81,32 @@ var TheMap = React.createClass({
 			// Get Travels
 			if (iterationChanged) {
 				var currentIteration = DataStore.getCurrentIteration();
-				var markers = that.getMarkersForIterations(currentIteration);
+				var iterationLocationMarkerList = that.getMarkersForIterations(currentIteration);
+				markers = markers.concat(iterationLocationMarkerList);
 				
-				
-				that.setState({markers: markers});
-
 				var iteration = DataStore.getIterationsForUser()[currentIteration];	
-
-				//We will process these later
-				var currentLocation = iteration.location;
-				var locationClusterId = iteration.locationClusterId;
-
-
-				var fromClusterId = iteration.fromClusterId;
-				var toClusterId = iteration.toClusterId;
-
-				var fromCenterPoint = generalUtils.calcCenterOfPolygon(clusters[fromClusterId].points);
-				var toCenterPoint = generalUtils.calcCenterOfPolygon(clusters[toClusterId].points);
-
-				var arrow = {coordinates : [fromCenterPoint, toCenterPoint], color: "#000000", strokeOpacity : 1.0, strokeWeight : 2};
 				var arrows = [];
-				arrows.push(arrow);
-				that.setState({arrows:arrows});
+				if (iteration.prediction) {
+					//We will process these later
+					var currentLocation = iteration.location;
+					var locationClusterId = iteration.locationClusterId;
+
+
+					var fromClusterId = iteration.fromClusterId;
+					var toClusterId = iteration.toClusterId;
+
+					var fromCenterPoint = generalUtils.calcCenterOfPolygon(clusters[fromClusterId].points);
+					var toCenterPoint = generalUtils.calcCenterOfPolygon(clusters[toClusterId].points);
+
+					var arrow = {coordinates : [fromCenterPoint, toCenterPoint], color: "#000000", strokeOpacity : 1.0, strokeWeight : 2};
+					
+					arrows.push(arrow);
+					
+				}
+
 			}
+			that.setState({arrows:arrows});
+			that.setState({markers:markers});
 			
 		});
 	},
@@ -108,8 +120,8 @@ var TheMap = React.createClass({
 		var center = {lat:41.087839, lng: 29.046480};
 		return (
 			<div>
-			<ButtonInput onClick={this.applyIteration} value="Switch Location View Mode" />
-			<GoogleMaps markers={this.state.markers} polygons={this.state.polygons} arrows={this.state.arrows} center={center} zoom={12} mapTypeControl={true} elId="mapId" googleMapsClassName="map"/>
+				<ButtonInput onClick={this.applyIteration} value="Switch Location View Mode" />
+				<GoogleMaps richMarkers={this.state.markers} polygons={this.state.polygons} arrows={this.state.arrows} center={center} zoom={12} mapTypeControl={true} elId="mapId" googleMapsClassName="map"/>
 			</div>
 		)
 	}	
